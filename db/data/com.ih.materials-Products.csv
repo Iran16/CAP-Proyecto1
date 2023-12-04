@@ -1,0 +1,5 @@
+ID,Name,Description,ImageUrl,ReleaseDate,DiscontinuedDate,Price,Height,Width,Depth,Quantity,Suppliers_ID
+A01,Harina Pan, Masa para arepas, no tiene, 1992-01-01T00:00:00Z,,1.5,1,2,0.5,50,08c142fa-01b0-441d-b01d-eeaa3291f6f8
+A02,Margarina, Margarina Vegetal, no tiene, 1992-02-01T00:00:00Z,,0.8,1,1,0.5,20,08c142fa-01b0-441d-b01d-eeaa3291332w
+A03,Sal, Sal Fina, no tiene, 1992-02-02T00:00:00Z,,0.3,1,1,0.5,2,08c142fa-01b0-441d-b01d-eeaa3291332w
+A04,Agua, Agua Mineral, no tiene, 1992-02-03T00:00:00Z,,5,2,4,0.14,8,08c142fa-01b0-441d-b01d-eeaa3291f6f8
