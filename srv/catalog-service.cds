@@ -14,6 +14,7 @@ service CatalogServices {
 };
 
 define service CatalogService2 {
+    
     entity Products          as
         select from loga.reports.Products {
             ID,
@@ -47,6 +48,8 @@ define service CatalogService2 {
 
 
         };
+
+        
 
     @readonly
     entity Suppliers         as

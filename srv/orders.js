@@ -1,8 +1,14 @@
 const cds = require("@sap/cds");
 const { rejects } = require("assert");
+const { Console } = require("console");
 const { Orders } = cds.entities("com.training");
 
 module.exports = (srv) => {
+    srv.before("*", async (req) => {
+        console.log(`Method: ${req.method}`);
+        console.log(`Target: ${req.target}`);
+    });
+
     /////************READ*************/
     srv.on("READ", "GetOrders", async (req) => {
 

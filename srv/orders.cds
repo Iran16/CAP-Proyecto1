@@ -9,10 +9,19 @@ service ManageOrders {
         message : String
     };
 
-    entity GetOrders   as projection on training.Orders;
+    // entity GetOrders   as projection on training.Orders;
     entity CreateOrder as projection on training.Orders;
     entity UpdateOrder as projection on training.Orders;
     entity DeleteOrder as projection on training.Orders;
-    function getClientTaxRate(VclientEmail : String(65)) returns Decimal(4, 2);
-    action   cancelOrder(VclientEmail : String(65)) returns cancelOrderReturn;
+
+    //  function getClientTaxRate(VclientEmail : String(65)) returns Decimal(4, 2);
+    //  action   cancelOrder(VclientEmail : String(65)) returns cancelOrderReturn;
+
+     entity GetOrders   as projection on training.Orders
+     actions {
+         function getClientTaxRate(VclientEmail : String(65)) returns Decimal(4, 2);
+          action   cancelOrder(VclientEmail : String(65)) returns cancelOrderReturn;
+
+     }
+    
 }

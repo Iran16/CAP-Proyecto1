@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml">
+        <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="CatalogService2" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Products" EntityType="CatalogService2.Products">
+                    <NavigationPropertyBinding Path="ToUnitOfMeasures" Target="VH_UnitOfMesaure"/>
+                    <NavigationPropertyBinding Path="ToCurrency" Target="VH_Curremcies"/>
+                    <NavigationPropertyBinding Path="ToCategory" Target="VH_categories"/>
+                    <NavigationPropertyBinding Path="ToDimensionUnit" Target="VH_DimensionUnits"/>
+                    <NavigationPropertyBinding Path="Suppliers" Target="Suppliers"/>
+                    <NavigationPropertyBinding Path="Reviews" Target="Reviews"/>
+                </EntitySet>
+                <EntitySet Name="Suppliers" EntityType="CatalogService2.Suppliers">
+                    <NavigationPropertyBinding Path="ToProduct" Target="Products"/>
+                </EntitySet>
+                <EntitySet Name="Reviews" EntityType="CatalogService2.Reviews">
+                    <NavigationPropertyBinding Path="ToProduct" Target="Products"/>
+                </EntitySet>
+                <EntitySet Name="VH_categories" EntityType="CatalogService2.VH_categories"/>
+                <EntitySet Name="VH_Curremcies" EntityType="CatalogService2.VH_Curremcies"/>
+                <EntitySet Name="VH_UnitOfMesaure" EntityType="CatalogService2.VH_UnitOfMesaure"/>
+                <EntitySet Name="VH_DimensionUnits" EntityType="CatalogService2.VH_DimensionUnits"/>
+            </EntityContainer>
+            <EntityType Name="Products">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false"/>
+                <Property Name="Description" Type="Edm.String"/>
+                <Property Name="ImageUrl" Type="Edm.String"/>
+                <Property Name="ReleaseDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="DiscontinuedDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="Price" Type="Edm.Decimal" Scale="2" Precision="16"/>
+                <Property Name="Height" Type="Edm.Decimal" Scale="2" Precision="16"/>
+                <Property Name="Width" Type="Edm.Decimal" Scale="2" Precision="16"/>
+                <Property Name="Depth" Type="Edm.Decimal" Scale="2" Precision="16"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Scale="2" Precision="16"/>
+                <NavigationProperty Name="ToUnitOfMeasures" Type="CatalogService2.VH_UnitOfMesaure">
+                    <ReferentialConstraint Property="ToUnitOfMeasures_ID" ReferencedProperty="Code"/>
+                </NavigationProperty>
+                <Property Name="ToUnitOfMeasures_ID" Type="Edm.String" MaxLength="2"/>
+                <NavigationProperty Name="ToCurrency" Type="CatalogService2.VH_Curremcies">
+                    <ReferentialConstraint Property="ToCurrency_ID" ReferencedProperty="Code"/>
+                </NavigationProperty>
+                <Property Name="ToCurrency_ID" Type="Edm.String" MaxLength="3"/>
+                <NavigationProperty Name="ToCategory" Type="CatalogService2.VH_categories">
+                    <ReferentialConstraint Property="ToCategory_ID" ReferencedProperty="Code"/>
+                </NavigationProperty>
+                <Property Name="ToCategory_ID" Type="Edm.String" MaxLength="1"/>
+                <Property Name="Category" Type="Edm.String"/>
+                <NavigationProperty Name="ToDimensionUnit" Type="CatalogService2.VH_DimensionUnits">
+                    <ReferentialConstraint Property="ToDimensionUnit_ID" ReferencedProperty="Code"/>
+                </NavigationProperty>
+                <Property Name="ToDimensionUnit_ID" Type="Edm.String" MaxLength="2"/>
+                <NavigationProperty Name="Suppliers" Type="CatalogService2.Suppliers" Partner="ToProduct">
+                    <ReferentialConstraint Property="Suppliers_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="Suppliers_ID" Type="Edm.Guid"/>
+                <NavigationProperty Name="Reviews" Type="Collection(CatalogService2.Reviews)" Partner="ToProduct"/>
+                <Property Name="Rating" Type="Edm.Decimal" Scale="2" Precision="16"/>
+                <Property Name="StockAvailability" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Suppliers">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="Email" Type="Edm.String"/>
+                <Property Name="Phone" Type="Edm.String"/>
+                <Property Name="Fax" Type="Edm.String"/>
+                <NavigationProperty Name="ToProduct" Type="Collection(CatalogService2.Products)" Partner="Suppliers"/>
+            </EntityType>
+            <EntityType Name="Reviews">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Name" Type="Edm.String"/>
+                <Property Name="Rating" Type="Edm.Int32"/>
+                <Property Name="Comment" Type="Edm.String"/>
+                <NavigationProperty Name="ToProduct" Type="CatalogService2.Products" Partner="Reviews">
+                    <ReferentialConstraint Property="ToProduct_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="ToProduct_ID" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="VH_categories">
+                <Key>
+                    <PropertyRef Name="Code"/>
+                </Key>
+                <Property Name="Code" Type="Edm.String" MaxLength="1" Nullable="false"/>
+                <Property Name="Text" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="VH_Curremcies">
+                <Key>
+                    <PropertyRef Name="Code"/>
+                </Key>
+                <Property Name="Code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="Text" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="VH_UnitOfMesaure">
+                <Key>
+                    <PropertyRef Name="Code"/>
+                </Key>
+                <Property Name="Code" Type="Edm.String" MaxLength="2" Nullable="false"/>
+                <Property Name="Text" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="VH_DimensionUnits">
+                <Key>
+                    <PropertyRef Name="Code"/>
+                </Key>
+                <Property Name="Code" Type="Edm.String" MaxLength="2" Nullable="false"/>
+                <Property Name="Text" Type="Edm.String"/>
+            </EntityType>
+            <Annotations Target="CatalogService2.Products/Name">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/Description">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/ReleaseDate">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/Price">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/Quantity">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+                <Annotation Term="Validation.Minimum" Int="0"/>
+                <Annotation Term="Validation.Maximum" Int="20"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/ToUnitOfMeasures_ID">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/ToCurrency_ID">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/ToCategory_ID">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/Category">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/Rating">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.Products/StockAvailability">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CatalogService2.EntityContainer/Suppliers">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService2.EntityContainer/VH_categories">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService2.EntityContainer/VH_Curremcies">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService2.EntityContainer/VH_UnitOfMesaure">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService2.EntityContainer/VH_DimensionUnits">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
